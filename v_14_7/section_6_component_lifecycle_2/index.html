@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Tutorial</title>
+    <script src="https://fb.me/react-0.14.7.js"></script>
+    <script src="https://fb.me/react-dom-0.14.7.js"></script>
+    <!-- BABEL : will use with webpack -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lesson5challengestyling.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      var LikesComponent = React.createClass({
+        updateLikes: function() {
+          ReactDOM.render(
+            <LikesComponent likes={this.props.likes + 1} />,
+            document.getElementById('app')
+          )
+        },
+        getDefaultProps: function() {
+          return ({
+            likes: 0
+          });
+        },
+        getInitialState: function() {
+          return ({
+            popular: false
+          });
+        },
+        // not called on initial render, called after a re-render
+        componentWillReceiveProps: function(nextProps) {
+          console.log('Component Will Receive Props');
+          console.log(nextProps);
+          this.setState({
+            popular: nextProps.likes >= 10
+          });
+        },
+        // after initial render, called after a re-render
+        // has to return a boolean (true/false)
+        // false - render is skipped, never updated
+        // true - renders/updates
+        shouldComponentUpdate: function(nextProps, nextState) {
+          console.log('Should Update');
+          console.log(nextProps);
+          console.log(nextState);
+          return nextProps.likes % 2 == 0; // will update if even
+        },
+        render: function() {
+          return (
+            <div className='container'>
+              <h1>{this.state.popular ? "I'm popular" : null}</h1>
+              <button className="btn blue-btn" onClick={this.updateLikes}>Likes: {this.props.likes}</button>
+            </div>
+          );
+        },
+        // not called on initial render, called in subsequent renders
+        // values before updated, not called if no update
+        // has access to DOM
+        componentDidUpdate: function(prevProps, prevState) {
+          console.log('Previous props', prevProps);
+          console.log('Previous state', prevState);
+          console.log(ReactDOM.findDOMNode(this));
+        }
+      });
+
+      ReactDOM.render(
+        <LikesComponent />,
+        document.getElementById('app')
+      );
+    </script>
+  </body>
+</html>

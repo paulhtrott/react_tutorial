@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Tutorial</title>
+    <script src="https://fb.me/react-0.14.7.js"></script>
+    <script src="https://fb.me/react-dom-0.14.7.js"></script>
+    <!-- BABEL : will use with webpack -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lesson5challengestyling.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      var TaskList = React.createClass({
+        getInitialState: function(){
+          return {
+            tasks: [
+              { title: 'Clean Dishes', id: 1 },
+              { title: 'Take out the bins', id: 2 },
+              { title: 'Change bed', id: 3 }
+            ]
+          }
+        },
+        render: function(){
+          return (
+            <ul>
+              {
+                this.state.tasks.map(function(task) {
+                  return <Task key={task.id} title={task.title} />
+                })
+              }
+            </ul>
+          );
+        }
+      });
+
+      // simple stateless functional component
+      // simply returns some content. Just a simple dumb component.
+      var Task = function(props) {
+        return (
+          <li>Task: {props.title}</li>
+        );
+      };
+
+      ReactDOM.render(
+        <TaskList />,
+        document.getElementById('app')
+      );
+    </script>
+  </body>
+</html>
