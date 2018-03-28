@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Tutorial</title>
+    <script src="https://fb.me/react-0.14.7.js"></script>
+    <script src="https://fb.me/react-dom-0.14.7.js"></script>
+    <!-- BABEL : will use with webpack -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lesson5challengestyling.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+
+      class Counter extends React.Component {
+
+        constructor(props) {
+          super(props);
+          this.state = { count: 0 }
+          console.log(this);
+          console.log(props);
+          //this.click = this.click.bind(this); // do this so that this represents what you expect. The component
+          // OR
+         // use the function setup below (es6 arrow function) in the onClick it will bind this correctly
+        }
+
+        click() {
+          console.log('Clicked!');
+        }
+
+        render() {
+          return (
+            <div className='container'>
+             <Button className='btn blue-btn' clickHandler={() => this.click()} text='click me!' />
+            </div>
+          )
+        }
+      }
+
+     Counter.defaultProps = {
+       text: 'Hello Paul'
+     }
+
+     Counter.propTypes = {
+       text: React.PropTypes.string
+     }
+
+     const Button = (props) => {
+       return (
+         <button className={props.className} onClick={props.clickHandler}>{props.text}</button>
+       )
+     }
+
+     ReactDOM.render(
+       <Counter />,
+       document.getElementById('app')
+     )
+    </script>
+  </body>
+</html>
